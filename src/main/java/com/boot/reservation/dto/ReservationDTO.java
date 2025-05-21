@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReservationDTO {
 	private int reservation_id;
-	private int station_id;
+	private String station_id;
 	private int user_no;
-	private int charger_id;
+	private String charger_id;
 	private Date reservation_date;
 	private Time reservation_time;
 	private int duration_minutes;

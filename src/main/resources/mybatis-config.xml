@@ -22,6 +22,9 @@
 		<!--공지사항 mapper-->
 		<mapper resource="mybatis/mappers/notice_board.xml"/>
 		<mapper resource="mybatis/mappers/notice_page.xml"/>
+		
+		<!--예약 mapper-->
+		<mapper resource="mybatis/mappers/reservation.xml"/>
 
 	</mappers>
 </configuration>
