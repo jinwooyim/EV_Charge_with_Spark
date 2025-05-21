@@ -43,7 +43,7 @@
 
    <body>
       <script type="text/javascript"
-         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=#"></script>
+         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=109dd4a6fbdf108d896544146388b47e"></script>
 	
 	  <!-- 헤더 -->
       <jsp:include page="/WEB-INF/views/header.jsp" />
