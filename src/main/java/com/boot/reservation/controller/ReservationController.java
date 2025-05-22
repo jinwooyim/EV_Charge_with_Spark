@@ -1,10 +1,11 @@
 package com.boot.reservation.controller;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.util.LinkedHashMap;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +21,9 @@ import com.boot.dto.MemberDTO;
 import com.boot.reservation.dto.ReservationDTO;
 import com.boot.reservation.service.ReservationService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class ReservationController {
 
@@ -28,40 +31,54 @@ public class ReservationController {
 	private ReservationService service;
 
 	@RequestMapping("/reservation")
-	public String reservation(@RequestParam("reservation_date") Date reservation_date, Model model) {
-		List<ReservationDTO> reservation_list = service.find_reservation_by_reserve_date(reservation_date);
+	public String reservation(Model model) {
+		LocalDateTime localDateTime = LocalDateTime.now();
+		Date current_date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
-		model.addAttribute("reservation_list", reservation_list);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String formatDate = formatter.format(current_date);
 
+		List<ReservationDTO> current_reservation_list = service.find_reservation_by_reserve_date(formatDate);
+
+		model.addAttribute("current_date", formatDate);
+		model.addAttribute("current_reservation_list", current_reservation_list);
+
+		log.info("@# current_date =>" + current_date);
+		log.info("@# current_reservation_list =>" + current_reservation_list);
 		return "reservation";
 	}
 
 	@RequestMapping("/reservation_ok")
-	public String reservation_ok(@RequestParam("stat_id") String stat_id, @RequestParam("chger_id") String chger_id,
-			@RequestParam("reservation_date") Date reservation_date,
-			@RequestParam("reservation_date[]") Time[] reservation_time_list, HttpServletRequest request) {
+	public String reservation_ok(@RequestParam("stat_id") String stat_id,
+			@RequestParam("reservation_date") String reservation_date,
+			@RequestParam("reservation_time[]") String[] reservation_time_list, HttpServletRequest request) {
+
+		log.info("@# reservation_ok() stat_id" + stat_id);
+		log.info("@# reservation_ok() reservation_date" + reservation_date);
+		log.info("@# reservation_ok() reservation_time_list" + reservation_time_list);
 
 		HttpSession session = request.getSession();
 		MemberDTO user = (MemberDTO) session.getAttribute("user");
 		int user_no = user.getUser_no();
 		int duration_minutes = reservation_time_list.length * 30;
-		Time reservation_time = reservation_time_list[1];
+		String reservation_time = reservation_time_list[1];
 
-		service.insertReservation(stat_id, user_no, chger_id, reservation_date, reservation_time, duration_minutes);
+		service.insertReservation(stat_id, user_no, reservation_date, reservation_time, duration_minutes);
 
-		return "reservation_ok";
+		return "my_page";
 	}
 
-	@GetMapping("/reservation/data")
+	@RequestMapping("/change_date")
 	@ResponseBody
-	public Map<String, Integer> getReservationData() {
-		Map<String, Integer> data = new LinkedHashMap<>();
-		data.put("09:00", 5);
-		data.put("09:30", 7);
-		data.put("10:00", 3);
-		data.put("10:30", 10);
-		data.put("11:00", 12);
-		data.put("11:30", 6);
-		return data;
+	public List<String> change_date(@RequestParam("reservation_date") String reservation_date,
+			@RequestParam("stat_id") String stat_id) {
+		log.info("@# change_date() reservation_date => " + reservation_date);
+		log.info("@# change_date() stat_id => " + stat_id);
+
+		List<ReservationDTO> list = service.find_reservation_by_reserve_date_stat(reservation_date, stat_id);
+
+		List<String> reservedTime = list.stream().map(ReservationDTO::getReservation_time).collect(Collectors.toList());
+
+		return reservedTime;
 	}
 }

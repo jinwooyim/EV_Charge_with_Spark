@@ -1,7 +1,5 @@
 package com.boot.reservation.service;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -20,11 +18,11 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	@Transactional
-	public void insertReservation(String stat_id, int user_no, String chger_id, Date reservation_date,
-			Time reservation_time, int duration_minutes) {
+	public void insertReservation(String stat_id, int user_no, String reservation_date, String reservation_time,
+			int duration_minutes) {
 		ReservationDAO dao = sqlSession.getMapper(ReservationDAO.class);
 
-		dao.insertReservation(stat_id, user_no, chger_id, reservation_date, reservation_time, duration_minutes);
+		dao.insertReservation(stat_id, user_no, reservation_date, reservation_time, duration_minutes);
 	}
 
 	@Override
@@ -42,9 +40,16 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
-	public List<ReservationDTO> find_reservation_by_reserve_date(Date reservation_date) {
+	public List<ReservationDTO> find_reservation_by_reserve_date(String reservation_date) {
 		ReservationDAO dao = sqlSession.getMapper(ReservationDAO.class);
 		List<ReservationDTO> reservation_list = dao.find_reservation_by_reserve_date(reservation_date);
+		return reservation_list;
+	}
+
+	@Override
+	public List<ReservationDTO> find_reservation_by_reserve_date_stat(String reservation_date, String stat_id) {
+		ReservationDAO dao = sqlSession.getMapper(ReservationDAO.class);
+		List<ReservationDTO> reservation_list = dao.find_reservation_by_reserve_date_stat(reservation_date, stat_id);
 		return reservation_list;
 	}
 

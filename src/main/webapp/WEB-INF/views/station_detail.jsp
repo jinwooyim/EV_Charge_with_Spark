@@ -22,11 +22,6 @@
     
     <div class="sidebar-content">
         <div class="station-detail-container">
-            <!-- 충전소 상태 배지 -->
-            <!-- <div class="status-badge available"> -->
-                <!-- <i class="fas fa-check-circle"></i> -->
-                <!-- <span>사용가능</span> -->
-            <!-- </div> -->
             
             <!-- 충전소 기본 정보 -->
             <div class="detail-section">
@@ -48,15 +43,16 @@
                     <input type="hidden" id="station_lat" name="endLat">
                     <input type="hidden" id="station_lng" name="endLng">
                 </form>
+                <input type="hidden" id="stat_id" name="stat_id">
 
                 <div class="action-buttons">
                     <button class="action-button primary" id="findpathBtn">
                         <i class="fas fa-directions"></i>
                         <span>길찾기</span>
                     </button>
-                    <button class="action-button secondary" onclick="shareStation()">
-                        <i class="fas fa-share-alt"></i>
-                        <span>공유하기</span>
+                    <button class="action-button secondary" onclick="reservationStation()">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>예약하기</span>
                     </button>
                 </div>
                 
@@ -91,24 +87,6 @@
                     </div>
                 </div>
                 
-				<!-- 충전기 현황 -->
-                <!-- <div class="charger-status">
-                    <div class="status-item available">
-                        <span class="status-dot"></span>
-                        <span class="status-label">사용가능</span>
-                        <span id="available-count" class="status-count">3</span>
-                    </div>
-                    <div class="status-item charging">
-                        <span class="status-dot"></span>
-                        <span class="status-label">충전중</span>
-                        <span id="charging-count" class="status-count">2</span>
-                    </div>
-                    <div class="status-item offline">
-                        <span class="status-dot"></span>
-                        <span class="status-label">점검중</span>
-                        <span id="offline-count" class="status-count">1</span>
-                    </div>
-                </div> -->
             </div>
             
             <!-- 지원 차종 정보 -->
@@ -144,34 +122,6 @@
                 </div>
             </div>
             
-            <!-- 충전기 상세 목록 -->
-<!--            <div class="detail-section">-->
-<!--                <h3 class="section-title">-->
-<!--                    <i class="fas fa-list"></i>-->
-<!--                    <span>충전기 목록</span>-->
-<!--                </h3>-->
-                
-<!--                <div class="charger-list">-->
-<!--                    <div class="charger-item available">-->
-<!--                        <div class="charger-header">-->
-<!--                            <div class="charger-name">-->
-<!--                                <span class="charger-number">01</span>-->
-<!--                                <span class="charger-type">DC콤보</span>-->
-<!--                            </div>-->
-<!--                            <div class="charger-status">사용가능</div>-->
-<!--                        </div>-->
-<!--                        <div class="charger-specs">-->
-<!--                            <div class="spec-item">-->
-<!--                                <i class="fas fa-bolt"></i>-->
-<!--                                <span>100kW</span>-->
-<!--                            </div>-->
-<!--                            <div class="spec-item">-->
-<!--                                <i class="fas fa-dollar-sign"></i>-->
-<!--                                <span>292.9원/kWh</span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
             </div>
             
             <!-- 운영 정보 -->
@@ -268,17 +218,10 @@
             alert("이 브라우저는 위치 기능을 지원하지 않습니다.");
         }
     });
-    
-    
-    // 공유하기 함수
-    function shareStation() {
-        // 공유하기 로직 (사용자가 구현)
-        const stationName = document.getElementById('station-name').textContent;
-        const stationAddress = document.getElementById('station-address').textContent;
-        
-        console.log(`공유하기: ${stationName} (${stationAddress})`);
-    }
-	
+
+	$(document).on("click", "#close-reservation", function () {
+        $(".reservation-sidebar").removeClass("active");
+    });
 	// 마커 클릭
 	function updateStationDetail(markerData) {
         var name = markerData.name;
@@ -329,21 +272,7 @@
             slow_count = data.slow_stat_three;
             $("#station_lat").val(first.lat);
             $("#station_lng").val(first.lng);
-
-            // 전부다 반복으로 꺼내기
-            // chargerList.forEach(charger => {
-            //     console.log("전부 출력");
-            //     console.log("충전소 이름 => ", charger.stat_name);
-            //     console.log("충전기 타입 => ", charger.chger_type);
-            //     console.log("출력 => ", charger.output);
-            //     console.log("이용 가능 시간 => ", charger.use_time);
-            //     console.log("====================================");
-            // });
-
-            // 첫번째 꺼만 꺼내기
-            // console.log("!@#$!@#$", first.parking_free);
-            // console.log("첫 번째 충전소 이름 =>", first.stat_name);
-            // console.log("충전기 타입 =>", first.chger_type);
+            $("#stat_id").val(first.stat_id);
 
             // 이름
             document.getElementById("station-name").textContent = first.stat_name;

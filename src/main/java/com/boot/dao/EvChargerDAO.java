@@ -11,4 +11,7 @@ public interface EvChargerDAO {
 
 	// 경도위도 근처 충전소 정보
 	public List<EvChargerDTO> ev_list(@Param("lat") Double lat, @Param("lng") Double lng);
+
+	// 충전소 id로 정보 가져오기
+	public EvChargerDTO ev_list_by_stat(String stat_id);
 }

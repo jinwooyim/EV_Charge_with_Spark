@@ -35,4 +35,11 @@ public class EvChargerServiceImpl implements EvChargerService {
 
 		return ev_list;
 	}
+
+	@Override
+	public EvChargerDTO ev_list_by_stat(String stat_id) {
+		EvChargerDAO dao = sqlSession.getMapper(EvChargerDAO.class);
+		EvChargerDTO dto = dao.ev_list_by_stat(stat_id);
+		return dto;
+	}
 }

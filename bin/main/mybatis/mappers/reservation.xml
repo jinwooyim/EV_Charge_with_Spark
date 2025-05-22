@@ -5,10 +5,14 @@
 <mapper namespace="com.boot.reservation.dao.ReservationDAO">
 
 	<insert id="insertReservation">
-		insert into ev_reservation (stat_id, user_no, chger_id, reservation_date, reservation_time, duration_minutes) 
+		insert into ev_reservation (stat_id, user_no, reservation_date, reservation_time, duration_minutes) 
 			values
-		(#{stat_id}, #{user_no}, #{chger_id}, #{reservation_date}, #{reservation_time}, #{duration_minutes})
+		(#{stat_id}, #{user_no}, #{reservation_date}, #{reservation_time}, #{duration_minutes})
 	</insert>
+	
+	<select id="find_reservation_by_reserve_date_stat" resultType="com.boot.reservation.dto.ReservationDTO">
+		select * from ev_reservation where reservation_date = #{reservation_date} and stat_id = #{stat_id}
+	</select>
 	
 	<select id="find_reservation_by_reserve_date" resultType="com.boot.reservation.dto.ReservationDTO">
 		select * from ev_reservation where reservation_date = #{reservation_date}
