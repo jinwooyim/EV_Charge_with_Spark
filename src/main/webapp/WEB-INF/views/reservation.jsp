@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
     <title>EV 예약</title>
@@ -12,9 +13,11 @@
             position: absolute;
             top: 80px;
             right: 0;
-            width: 380px;
-            height: 88%;
+            width: 360px;
+            height: 74%;
             background-color: #fff;
+            border: #11C287 solid 4px;
+            border-right: none;
             box-shadow: 0 0 10px rgba(0,0,0,0.15);
             border-radius: 20px 0 0 20px;
             z-index: 1010;
@@ -43,6 +46,7 @@
         h2 {
             margin: 10px 0 20px;
             color: #11C287;
+            text-align: center;
         }
 
         label {
@@ -84,6 +88,7 @@
 
         #timeSlots {
             margin: 20px 0;
+            text-align: center;
         }
 
         input[type="submit"] {
@@ -113,14 +118,19 @@
         <input type="hidden" name="stat_id" id="reserve_stat"> <%-- 충전소 ID --%>
 
         <label>
-            <p>예약 날짜</p>
             <input type="date" id="reservation_date" name="reservation_date" value="${current_date}" required>
         </label>
 
         <div id="timeSlots"></div>
         <div id="selectedTimesContainer"></div>
-
-        <input type="submit" value="예약하기">
+        <c:choose>
+            <c:when test="${not empty sessionScope.user}">
+                <input type="submit" value="예약하기">
+            </c:when>
+            <c:otherwise>
+                <p style="text-align: center;">로그인 후 이용 가능합니다.</p>
+            </c:otherwise>
+        </c:choose>
     </form>
 </div>
 
@@ -133,7 +143,7 @@
     const timeSlots = [];
     for (let hour = 9; hour <= 22; hour++) {
         timeSlots.push((hour < 10 ? "0" + hour : hour) + ":00");
-        if (hour < 22) timeSlots.push((hour < 10 ? "0" + hour : hour) + ":30");
+        if (hour <= 22) timeSlots.push((hour < 10 ? "0" + hour : hour) + ":30");
     }
 
     const timeSlotsDiv = document.getElementById("timeSlots");
@@ -196,7 +206,7 @@
         const selectedDate = this.value;
         const stat_id = $("#stat_id").val();
 
-        $("#reserve_stat").val(stat_id);
+        $("#reserve_stat").val(stat_id)
 
         const currentSelectedTimes = Array.from(
             document.querySelectorAll("input[name='reservation_time[]']")

@@ -55,17 +55,19 @@ public class ReservationController {
 
 		log.info("@# reservation_ok() stat_id" + stat_id);
 		log.info("@# reservation_ok() reservation_date" + reservation_date);
-		log.info("@# reservation_ok() reservation_time_list" + reservation_time_list);
+		for (int i = 0; i < reservation_time_list.length; i++) {
+			log.info("@# reservation_ok() reservation_time_list" + i + " =>" + reservation_time_list[i]);
+		}
 
 		HttpSession session = request.getSession();
 		MemberDTO user = (MemberDTO) session.getAttribute("user");
 		int user_no = user.getUser_no();
 		int duration_minutes = reservation_time_list.length * 30;
-		String reservation_time = reservation_time_list[1];
+		String reservation_time = reservation_time_list[0];
 
 		service.insertReservation(stat_id, user_no, reservation_date, reservation_time, duration_minutes);
 
-		return "my_page";
+		return "redirect:/mypage";
 	}
 
 	@RequestMapping("/change_date")
