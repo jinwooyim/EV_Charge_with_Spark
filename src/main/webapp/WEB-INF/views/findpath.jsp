@@ -112,60 +112,59 @@
         }
     </style>
 </head>
-<body>
-    <div id="findpath_list" role="region" aria-label="경로 정보 리스트">
-        <c:if test="${not empty routeInfoList}">
-            <h2>경로 정보 리스트</h2>
-            <c:forEach var="route" items="${routeInfoList}">
-                <c:if test="${not empty route.name}">
-                    <div class="route-content" tabindex="0" aria-label="${route.name} 경로 정보">
-                        <div class="route-title">${route.name}</div>
-                        <c:if test="${route.distance != -1}">
-                            <div class="route-item">
-                                <span class="route-label">거리:</span> 
-                                <span class="route-value">${route.distance} m</span>
-                            </div>
-                        </c:if>
-                        <c:if test="${route.duration != -1}">
-                            <div class="route-item">
-                                <span class="route-label">소요시간:</span> 
-                                <span class="route-value">${route.duration} 초</span>
-                            </div>
-                        </c:if>
-                        <c:if test="${route.turnType != -1}">
-                            <div class="route-item">
-                                <span class="route-label">턴 유형:</span> 
-                                <span class="route-value">${route.turnType}</span>
-                            </div>
-                        </c:if>
-                        <c:if test="${route.roadType != -1}">
-                            <div class="route-item">
-                                <span class="route-label">도로 유형:</span> 
-                                <span class="route-value">${route.roadType}</span>
-                            </div>
-                        </c:if>
-                        <c:if test="${route.guidance != -1}">
-                            <div class="route-item">
-                                <span class="route-label">안내 문구:</span> 
-                                <span class="route-value">${route.guidance}</span>
-                            </div>
-                        </c:if>
-                        <c:if test="${route.trafficSpeed != -1}">
-                            <div class="route-item">
-                                <span class="route-label">교통 속도:</span> 
-                                <span class="route-value">${route.trafficSpeed} km/h</span>
-                            </div>
-                        </c:if>
-                        <c:if test="${route.trafficState != -1}">
-                            <div class="route-item">
-                                <span class="route-label">교통 상태:</span> 
-                                <span class="route-value">${route.trafficState}</span>
-                            </div>
-                        </c:if>
-                    </div>
-                </c:if>
-            </c:forEach>
-        </c:if>
-    </div>
-</body>
+<div id="findpath_list" role="region" aria-label="경로 정보 리스트">
+    <c:if test="${not empty routeInfoList}">
+        <h2>경로 정보 리스트</h2>
+        <button type="button" onclick="history.back()">길찾기 취소</button>
+        <c:forEach var="route" items="${routeInfoList}">
+            <c:if test="${not empty route.name}">
+                <div class="route-content" tabindex="0" aria-label="${route.name} 경로 정보">
+                    <div class="route-title">${route.name}</div>
+                    <c:if test="${route.distance != -1}">
+                        <div class="route-item">
+                            <span class="route-label">거리:</span> 
+                            <span class="route-value">${route.distance} m</span>
+                        </div>
+                    </c:if>
+                    <c:if test="${route.duration != -1}">
+                        <div class="route-item">
+                            <span class="route-label">소요시간:</span> 
+                            <span class="route-value">${route.duration} 초</span>
+                        </div>
+                    </c:if>
+                    <c:if test="${route.turnType != -1}">
+                        <div class="route-item">
+                            <span class="route-label">턴 유형:</span> 
+                            <span class="route-value">${route.turnType}</span>
+                        </div>
+                    </c:if>
+                    <c:if test="${route.roadType != -1}">
+                        <div class="route-item">
+                            <span class="route-label">도로 유형:</span> 
+                            <span class="route-value">${route.roadType}</span>
+                        </div>
+                    </c:if>
+                    <c:if test="${route.guidance != -1}">
+                        <div class="route-item">
+                            <span class="route-label">안내 문구:</span> 
+                            <span class="route-value">${route.guidance}</span>
+                        </div>
+                    </c:if>
+                    <c:if test="${route.trafficSpeed != -1}">
+                        <div class="route-item">
+                            <span class="route-label">교통 속도:</span> 
+                            <span class="route-value">${route.trafficSpeed} km/h</span>
+                        </div>
+                    </c:if>
+                    <c:if test="${route.trafficState != -1}">
+                        <div class="route-item">
+                            <span class="route-label">교통 상태:</span> 
+                            <span class="route-value">${route.trafficState}</span>
+                        </div>
+                    </c:if>
+                </div>
+            </c:if>
+        </c:forEach>
+    </c:if>
+</div>
 </html>

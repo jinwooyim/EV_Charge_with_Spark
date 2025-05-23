@@ -157,8 +157,8 @@
         </div>
     <div class="sidebar-footer">
         <button id="report-issue" class="report-btn">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>오류 신고하기</span>
+            <i class="fas fa-chart-line"></i>
+            <span>실시간 분석하기</span>
         </button>
     </div>
 </div>

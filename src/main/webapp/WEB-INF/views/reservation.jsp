@@ -14,7 +14,7 @@
             top: 80px;
             right: 0;
             width: 360px;
-            height: 74%;
+            height: 88%;
             background-color: #fff;
             border: #11C287 solid 4px;
             border-right: none;
