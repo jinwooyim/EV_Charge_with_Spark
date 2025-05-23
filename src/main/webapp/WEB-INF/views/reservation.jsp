@@ -46,7 +46,7 @@
         h2 {
             margin: 10px 0 20px;
             color: #11C287;
-            text-align: center;
+            text-align: left;
         }
 
         label {
