@@ -15,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service("EvChargerService")
 public class EvChargerServiceImpl implements EvChargerService {
+//	@Autowired
+//	private EvChargerRepository evChargerRepository;
+
 	@Autowired
 	private SqlSession sqlSession;
 
@@ -22,24 +25,29 @@ public class EvChargerServiceImpl implements EvChargerService {
 	public void ev_charger_update(List<EvChargerDTO> ev_charger_data) {
 		EvChargerDAO dao = sqlSession.getMapper(EvChargerDAO.class);
 		for (EvChargerDTO dto : ev_charger_data) {
+			// DB저장
 			dao.ev_charger_update(dto);
+			// Elasticsearch 색저장
+//			evChargerRepository.save(new ElasticsearchDTO(dto));
 		}
 	}
 
-	// 경도위도 근처 충전소 정보
 	@Override
-	public List<EvChargerDTO> ev_list(Double lat, Double lng) {
+	public List<EvChargerDTO> ev_list(Double lat, Double lng, Double lat_n, Double lng_n) {
 		EvChargerDAO dao = sqlSession.getMapper(EvChargerDAO.class);
 		List<EvChargerDTO> ev_list = new ArrayList<>();
-		ev_list = dao.ev_list(lat, lng);
+		ev_list = dao.ev_list(lat, lng, lat_n, lng_n);
 
 		return ev_list;
 	}
 
-	@Override
-	public EvChargerDTO ev_list_by_stat(String stat_id) {
-		EvChargerDAO dao = sqlSession.getMapper(EvChargerDAO.class);
-		EvChargerDTO dto = dao.ev_list_by_stat(stat_id);
-		return dto;
-	}
+	// 경도위도 근처 충전소 정보
+//	@Override
+//	public List<EvChargerDTO> ev_list(Double lat, Double lng) {
+//		EvChargerDAO dao = sqlSession.getMapper(EvChargerDAO.class);
+//		List<EvChargerDTO> ev_list = new ArrayList<>();
+//		ev_list = dao.ev_list(lat, lng);
+//
+//		return ev_list;
+//	}
 }

@@ -101,6 +101,16 @@
                                     <td>
                                         <a class="link move_link" href="${dto.boardNo}">
                                             ${dto.boardTitle}
+                                            <!-- 첨부파일이 있는 경우 아이콘 표시 (예시) -->
+                                            <c:if test="${dto.hasAttachment}">
+                                                <i class="fas fa-paperclip attachment-icon"></i>
+                                            </c:if>
+                                            
+                                            <!-- 최신글 표시 (예시: 3일 이내 작성된 글) -->
+                                            <c:if test="${dto.isNew}">
+                                                <span class="badge badge-new">NEW</span>
+                                            </c:if>
+                                            
                                             <!-- 인기글 표시 (예시: 조회수 100 이상) -->
                                             <c:if test="${dto.boardHit >= 100}">
                                                 <span class="badge badge-hot">HOT</span>

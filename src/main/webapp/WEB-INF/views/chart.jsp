@@ -7,7 +7,61 @@
     String logJson = mapper.writeValueAsString(request.getAttribute("log_predictions"));
     String reserveJson = mapper.writeValueAsString(request.getAttribute("reserve_dtos"));
 %>
+<style>
+    table {
+        width: 100%;
+        font-size: 0.85em;       /* ✅ 폰트 작게 */
+        border-collapse: collapse;
+        table-layout: fixed;    /* ✅ 셀 너비 균등 배분 */
+    }
 
+    th, td {
+        padding: 6px;           /* ✅ padding 축소 */
+        word-wrap: break-word;
+        white-space: normal;
+        text-align: left;
+    }
+
+    thead {
+        background-color: #f5f5f5;
+    }
+    .chart-sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 450px;
+        height: 100vh;
+        background-color: #ffffff;
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        z-index: 1000;
+        display: none;
+        padding: 20px;
+        transition: all 0.3s ease;
+    }
+
+    #chartContainer {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        width: 520px;
+        max-height: 90vh;
+        background: #fff;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        z-index: 999;
+        display: none;
+        overflow-y: auto;       /* ✅ 위아래 스크롤만 허용 */
+        overflow-x: hidden;     /* ✅ 좌우 스크롤 차단 */
+        border-radius: 12px;
+        padding: 40px;
+        box-sizing: border-box;
+        border: 3px solid #10B981;
+    }
+
+    .report-btn i {
+        margin-right: 6px;
+    }
+</style>
 <html>
 <head>
     <title>충전소 분석 차트</title>
@@ -149,5 +203,6 @@
             }
         });
     </script>
+    
 </body>
 </html>

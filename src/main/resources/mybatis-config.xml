@@ -28,5 +28,7 @@
 		<!--회귀분석 mapper-->
 		<mapper resource="mybatis/mappers/spark.xml"/>
 
+		<!-- elasticsearch -->
+		<mapper resource="mybatis/mappers/elasticsearch.xml"/>
 	</mappers>
 </configuration>
